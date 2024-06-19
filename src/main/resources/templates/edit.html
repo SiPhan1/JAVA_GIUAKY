@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh sửa Nhân viên</title>
+    <style>
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        .button-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Chỉnh sửa Nhân viên</h1>
+<form th:action="@{/nhanvien/edit/{id}(id=${nhanVien.id})}" th:object="${nhanVien}" method="post">
+    <div>
+        <label>Mã NV:</label>
+        <input type="text" th:field="*{maNV}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('maNV')}" th:errors="*{maNV}"></span>
+    </div>
+    <div>
+        <label>Tên NV:</label>
+        <input type="text" th:field="*{tenNV}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('tenNV')}" th:errors="*{tenNV}"></span>
+    </div>
+    <div>
+        <label>Phái:</label>
+        <select th:field="*{phai}">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+        </select>
+        <span class="text-danger" th:if="${#fields.hasErrors('phai')}" th:errors="*{phai}"></span>
+    </div>
+    <div>
+        <label>Nơi Sinh:</label>
+        <input type="text" th:field="*{noiSinh}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('noiSinh')}" th:errors="*{noiSinh}"></span>
+    </div>
+    <div>
+        <label>Phòng Ban:</label>
+        <select th:field="*{phongBan.id}">
+            <option value="">-- Chọn Phòng Ban --</option>
+            <option th:each="phongBan : ${phongBans}" th:value="${phongBan.id}" th:text="${phongBan.tenPhong}"></option>
+        </select>
+        <span class="text-danger" th:if="${#fields.hasErrors('phongBan')}" th:errors="*{phongBan}"></span>
+    </div>
+    <div>
+        <label>Lương:</label>
+        <input type="text" th:field="*{luong}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('luong')}" th:errors="*{luong}"></span>
+    </div>
+    <div class="button-group">
+        <button type="submit">Lưu</button>
+    </div>
+</form>
+<a href="/nhanvien">Quay lại danh sách nhân viên</a>
+</body>
+</html>

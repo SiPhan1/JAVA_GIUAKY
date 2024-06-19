@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Nhân viên</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: black;
+        }
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+<h1>Danh sách Nhân viên</h1>
+<a href="/nhanvien/add">Thêm Nhân viên</a>
+<table>
+    <thead>
+    <tr>
+        <th>Mã NV</th>
+        <th>Tên NV</th>
+        <th>Phái</th>
+        <th>Nơi Sinh</th>
+        <th>Phòng Ban</th>
+        <th>Lương</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="nhanVien : ${nhanVienPage.content}">
+        <td th:text="${nhanVien.maNV}">Mã NV</td>
+        <td th:text="${nhanVien.tenNV}">Tên NV</td>
+        <td>
+            <img th:src="${nhanVien.phai == 'Nữ' ? '/images/woman.jpg' : '/images/man.jpg'}"
+                 th:alt="${nhanVien.phai}" width="50" height="50"/>
+        </td>
+        <td th:text="${nhanVien.noiSinh}">Nơi Sinh</td>
+        <td th:text="${nhanVien.phongBan.tenPhong}">Phòng Ban</td>
+        <td th:text="${nhanVien.luong}">Lương</td>
+        <td>
+            <a th:href="@{/nhanvien/edit/{id}(id=${nhanVien.id})}">Sửa</a> |
+            <a th:href="@{/nhanvien/delete/{id}(id=${nhanVien.id})}">Xóa</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="pagination">
+    <a th:href="@{/nhanvien(page=${currentPage - 1})}" th:if="${currentPage > 0}">&laquo; Previous</a>
+    <a th:each="i : ${#numbers.sequence(0, nhanVienPage.totalPages - 1)}"
+       th:classappend="${i == currentPage} ? 'active'" th:text="${i + 1}"
+       th:href="@{/nhanvien(page=${i})}">1</a>
+    <a th:href="@{/nhanvien(page=${currentPage + 1})}" th:if="${currentPage + 1 < nhanVienPage.totalPages}">Next &raquo;</a>
+</div>
+</body>
+</html>
